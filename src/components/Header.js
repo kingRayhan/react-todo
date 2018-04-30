@@ -16,7 +16,7 @@ class Header extends Component{
 		return (
 			<React.Fragment>
 				<header className="header">
-					<h1>todos</h1>
+					<h1>React Todos</h1>
 					<form action="/" onSubmit={this.update}>
 						<input className="new-todo" placeholder="What needs to be done?"/>
 					</form>
