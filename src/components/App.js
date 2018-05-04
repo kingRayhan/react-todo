@@ -13,11 +13,17 @@ class App extends Component{
 	}
 
 	state = {
-		todos: [
-			{ task: 'task 1' , done: false },
-			{ task: 'task 2' , done: true },
-			{ task: 'task 3' , done: false }
-		]
+		todos: []
+	}
+	componentDidMount()
+	{
+		const todosArray = JSON.parse('[' + localStorage.getItem('todos') + ']')[0];
+		this.setState({ todos: todosArray })
+	}
+
+	componentDidUpdate()
+	{
+		localStorage.setItem('todos' , JSON.stringify(this.state.todos) )
 	}
 
 	addTodo = newTask => {
