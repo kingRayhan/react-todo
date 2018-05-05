@@ -1,28 +1,64 @@
 import React , { Component } from 'react'
-
+import classNames from 'classnames'
 class Todos extends Component{
+
+	state = {
+		editingId: null
+	}
+
+	delete = key => e => {
+		this.props.delete(key)
+	}
+
+	toggleDone = key => e => {
+		this.props.toggleDone(key);
+	}
+
+	startEditing = key => e => {
+		this.setState({ editingId: key })
+	}
+	doneEdit = (key) => e => {
+		this.setState({ editingId: null });
+		this.props.update(key, document.getElementById('todo-id-' + key).value );
+	}
+
 	render()
 	{
 		return (
 			<React.Fragment>
-				<section className="main">
-					<label htmlFor="toggle-all">Mark all as complete</label>
-						<input id="toggle-all" className="toggle-all" type="checkbox" onClick={() => { this.props.allDone() }}/>
-						<ul className="todo-list">
-							{this.props.todos.map( (todo , i) => (
-								<li key={i}
-									className={todo.done ? 'completed' : ''}
-								>
-									<div className="view">
-										<input className="toggle" type="checkbox" onChange={ () => { this.props.toggleDone(todo) } } checked={todo.done}/>
-										<label>{todo.task}</label>
-										<button className="destroy" onClick={ () => { this.props.delete(todo) } }></button>
-									</div>
-									<input className="edit" />
-								</li>
-							) )}
-						</ul>
-				</section>
+				<ul className="todo-list">
+					{ Object.keys(this.props.todos).map( key => (
+						<li 
+							className={
+								classNames({
+									completed: this.props.todos[key].done,
+									editing: this.state.editingId === key
+								})
+							} 
+							key={key}
+						>
+							<div className="view">
+								<input 
+									className="toggle" 
+									type="checkbox" 
+									onClick={this.toggleDone(key)} 
+									checked={this.props.todos[key].done}
+								/>
+								<label 
+									onDoubleClick={this.startEditing(key)}
+								>{this.props.todos[key].task}</label>
+								<button className="destroy" onClick={this.delete(key)}></button>
+							</div>
+							<input 
+								className="edit" 
+								autoFocus={ this.state.editingId === key }
+								defaultValue={this.props.todos[key].task}
+								id={'todo-id-' + key}
+								onBlur={this.doneEdit(key)} 
+							/>
+						</li>
+					) ) }
+				</ul>
 			</React.Fragment>
 		)
 	}
