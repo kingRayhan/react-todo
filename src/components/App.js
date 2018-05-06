@@ -92,9 +92,9 @@ class App extends Component{
 		if(this.state.filter === 'all' || !this.state.filter)
 			filtered = this.state.todos;
 		if(this.state.filter === 'undone')
-			filtered = filter( todo => todo.done === false , this.state.todos );
+			filtered = filter( todo => !todo.done , this.state.todos );
 		if(this.state.filter === 'done')
-			filtered = filter( todo => todo.done === true , this.state.todos );
+			filtered = filter( todo => todo.done , this.state.todos );
 		return filtered;
 	}
 

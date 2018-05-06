@@ -25,9 +25,10 @@ class Todos extends Component{
 	}
 
 	handleOnEnter = (key) => e => {
-		if( e.keyCode === '13' )
+		if(e.key === 'Enter')
 		{
-			alert('enter');
+			this.setState({ editingId: null });
+			this.props.update(key, document.getElementById('todo-id-' + key).value );
 		}
 	}
 
@@ -61,10 +62,10 @@ class Todos extends Component{
 							<input 
 								className="edit" 
 								autoFocus={this.state.editingId === key}
-								value={this.props.todos[key].task}
+								defaultValue={this.props.todos[key].task}
 								id={'todo-id-' + key}
 								onBlur={this.doneEdit(key)}
-								onChange={this.handleOnEnter(key)}
+								onKeyPress={this.handleOnEnter(key)}
 							/>
 						</li>
 					) ) }
