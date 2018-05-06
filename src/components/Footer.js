@@ -1,24 +1,44 @@
 import React , { Component } from 'react'
 
 class Footer extends Component{
+
+	handleFilter = filter => e => {
+		this.props.handleFilter(filter);
+	}
+
+	
+
 	render = () => {
-	if( Object.keys(this.props.todos).length === 0 ) return null;
+	const { 
+		currentFilter:filter , 
+		totalTodo , 
+		unDoneTaskCount ,
+		doneTaskCount ,
+		clearDoneTodo
+	} = this.props;
+
+	const clearButton = <button className="clear-completed" onClick={ () => clearDoneTodo() }>Clear Completed</button>
+
+	if( !totalTodo() ) return null; // not render when no todos in state
 	return(
 		<React.Fragment>
 			<footer className="footer">
-				{/*<span className="todo-count"><strong>0</strong> item left</span>*/}
-				{/*<ul className="filters">
+				<span className="todo-count"><strong>{unDoneTaskCount()}</strong> item left</span>
+				<ul className="filters">
 					<li>
-						<a className="selected" href="javascript:void(0)">All</a>
+						<a className={ filter === 'all' ? 'selected' : '' } href="javascript:void(0)" onClick={this.handleFilter('all')}>All</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)">Active</a>
+						<a className={ filter === 'undone' ? 'selected' : '' } href="javascript:void(0)" onClick={this.handleFilter('undone')}>Active</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)">Completed</a>
+						<a className={ filter === 'done' ? 'selected' : '' } href="javascript:void(0)" onClick={this.handleFilter('done')}>Completed</a>
 					</li>
-				</ul>*/}
-				<button className="clear-completed" onClick={ () => this.props.clearAll() }>Clear All</button>
+				</ul>
+
+				{ doneTaskCount() ? clearButton : '' }
+
+
 			</footer>
 		</React.Fragment>
 		)

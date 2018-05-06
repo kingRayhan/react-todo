@@ -3,7 +3,8 @@ import classNames from 'classnames'
 class Todos extends Component{
 
 	state = {
-		editingId: null
+		editingId: null,
+		filter: 'all'
 	}
 
 	delete = key => e => {
@@ -17,9 +18,17 @@ class Todos extends Component{
 	startEditing = key => e => {
 		this.setState({ editingId: key })
 	}
+
 	doneEdit = (key) => e => {
 		this.setState({ editingId: null });
 		this.props.update(key, document.getElementById('todo-id-' + key).value );
+	}
+
+	handleOnEnter = (key) => e => {
+		if( e.keyCode === '13' )
+		{
+			alert('enter');
+		}
 	}
 
 	render()
@@ -51,10 +60,11 @@ class Todos extends Component{
 							</div>
 							<input 
 								className="edit" 
-								autoFocus={ this.state.editingId === key }
-								defaultValue={this.props.todos[key].task}
+								autoFocus={this.state.editingId === key}
+								value={this.props.todos[key].task}
 								id={'todo-id-' + key}
-								onBlur={this.doneEdit(key)} 
+								onBlur={this.doneEdit(key)}
+								onChange={this.handleOnEnter(key)}
 							/>
 						</li>
 					) ) }

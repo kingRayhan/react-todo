@@ -3,11 +3,11 @@ import React , { Component } from 'react'
 class Header extends Component{
 
 	editTodoInfo = {
-		    'font-size': '14px',
-		    display: 'block',
-		    'margin-top': '35px',
-		    color: '#333',
-		    'font-weight': 400
+	    fontSize: '14px',
+	    display: 'block',
+	    marginTop: '35px',
+	    color: '#333',
+	    fontWeight: 400
 	}
 
 	update = e =>
@@ -22,7 +22,7 @@ class Header extends Component{
 			<React.Fragment>
 				<header className="header">
 					<h1>React Todos <span style={this.editTodoInfo}>Double click to edit todo</span></h1>
-					<form action="/" onSubmit={this.update}>
+					<form onSubmit={this.update}>
 						<input className="new-todo" placeholder="What needs to be done?"/>
 					</form>
 				</header>
